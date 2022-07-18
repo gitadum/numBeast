@@ -2,20 +2,35 @@
 # -*- coding: utf-8 -*-
 
 # This program is made to train mental calculation skills
-# This version of the program involves 2 terms and one of the 4 basic operations
 # ie addition (+), substraction (-), multiplication (*) and division (/)
 
+from functools import reduce
 from datetime import datetime
 
-def reckon(t1, t2, op):
+def reckon(op, *terms):
+    """
+    The reckon function tests the user on one of the 4 basic operations
+    for as many terms as there are following variables
+    """
+    try:
+        assert len(terms) >= 2
+    except AssertionError:
+        raise TypeError("There should be at least 2 terms to do a calculation!")
+    
     stt = 0
     opSig = ["+", "-", "*", "/"]
-    opRes = [t1+t2, t1-t2, t1*t2, t1/t2]
+    opRes = [reduce(lambda t1,t2 : t1+t2, terms),
+             reduce(lambda t1,t2 : t1-t2, terms),
+             reduce(lambda t1,t2 : t1*t2, terms),
+             reduce(lambda t1,t2 : t1/t2, terms)]
 
     sig = opSig[op]
     res = float(opRes[op])
 
-    cal = f"{t1} {sig} {t2} = "
+    cal = f"{terms[0]}"
+    for term in terms[1:]:
+        cal += f" {sig} {term}"
+    cal += " = "
     begin = datetime.now()
     ans = float(input(cal))
     if ans == res:

@@ -1,5 +1,5 @@
 import random
-from main import reckon
+from main import reckon as reckonv2
 
 t1 = random.randint(1,1000) # First term, random integer between 1 and 1,000
 t2 = random.randint(1,1000) # Second term, random integer between 1 and 1,000
@@ -8,7 +8,13 @@ op = random.randint(0,3) # rank of the operation to be performed
                          # 0: addition, 1: substraction,
                          # 2: multiplication, 3: division
 
-x = reckon(t1,t2,op)
+nTerms = random.randint(2,3)
+terms = []
+for n in range(nTerms):
+    terms.append(random.randint(1,1000))
+print(terms)
+
+x = reckonv2(op, *terms)
 
 try:
     assert x['flagOK'] == 1
