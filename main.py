@@ -35,7 +35,10 @@ def reckon(op, *terms):
         cal += f" {sig} {term}"
     cal += " = "
     begin = datetime.now()
-    ans = float(input(cal))
+    try:
+        ans = float(input(cal))
+    except ValueError:
+        ans = 0
     if ans == res:
         stt += 1
     end = datetime.now()
@@ -66,19 +69,29 @@ def calculate(nTerms=(2,3), rangeTerm=(1,1000), operator="random"):
     0: addition, 1: substraction, 2: multiplication, 3: division"
     """
     terms = []
-    for n in range(selectRandomInt(*nTerms)):
+    try:
+        assert type(nTerms) == tuple
+        nTerms = selectRandomInt(*nTerms)
+    except AssertionError:
+        assert type(nTerms) == int
+    
+    for n in range(nTerms):
         terms.append(selectRandomInt(*rangeTerm))
     if operator == "random":
-        op = selectRandomInt()
+        ope = selectRandomInt()
     elif operator == "excludeMultiplication":
-        op = selectRandomInt(exclude=2)
+        ope = selectRandomInt(exclude=2)
     elif operator == "onlyMultiplication":
-        op = 2
+        ope = 2
     elif operator == "excludeDivision":
-        op = selectRandomInt(exclude=3)
+        ope = selectRandomInt(exclude=3)
     elif operator == "onlyDivision":
-        op = 3
-    x = reckon(op, *terms)
+        ope = 3
+    elif operator == "onlyAdditionOrSubstaction":
+        ope = selectRandomInt(exclude=[2,3])
+    elif operator == "onlyMultiplicationOrDivision":
+        ope = selectRandomInt(exclude=[0,1])
+    x = reckon(ope, *terms)
     return x
 
 
@@ -112,5 +125,5 @@ def calculationSerie(n = 5, *args, **kwargs):
 
 
 def multiplicationTables(n=10, multipleRange=(1,12)):
-    calculationSerie(n=n, nTerms=(2,2), rangeTerm=multipleRange, 
+    calculationSerie(n=n, nTerms=2, rangeTerm=multipleRange, 
                      operator="onlyMultiplication")
