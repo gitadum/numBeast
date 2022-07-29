@@ -1,3 +1,6 @@
-from main import calculationSerie
+from main import calculationSerie, multiplicationTables
 
-calculationSerie()
+calculationSerie(n=5, operator="onlyAdditionOrSubstaction")
+calculationSerie(n=5, nTerms=2, rangeTerm=(1,100),
+                 operator="onlyMultiplicationOrDivision")
+multiplicationTables()
